@@ -1,0 +1,60 @@
+#!/bin/bash
+Description: This script is to automate Infrastructure Management with Linux
+Author: Olu Agboola
+Date: 9th Dec. 2024
+
+#!bin/bash
+Script created by : Oluwasegun Agboola
+
+#Create directories
+mkdir Hresourses
+mkdir Contractors 
+
+#create files
+touch Hresources/payslip-summary.docx Hresources/overtime_sheet.xlsx Hresourses/holiday-pay.pdf
+touch Contractors/newbuild_quotation.txt Contractors/paid_invoices.pdf Contractors/building-access.xlsx 
+
+#create groups
+groupadd Hum_resources
+groupadd Contractors_site
+
+#change owner of Human Resources to the appropriate group
+chown :Hresources Hum_resources
+#change owner of Contractors to the appropriate group
+chown :Contractors Contractors_site
+
+#Change the owner of the files in Hresources directory to its group Hum_resources 
+chown :Hum_resources Hresources/payslip-summary.docx Hresources/overtime_sheet.xlsx Hresources/holiday-pay.pdf
+#Change the owner of the files in Contractors directory to its group Contractors
+chown : Contractors_site Contractors/newbuild_quotation.txt Contractors/paid_invoices.pdf Contractors/building-access.xlsx 
+
+#Create users
+adduser Bill
+adduser Sarah
+
+#Add comments to newly created users
+usermod -c "Bill Hre, bill.hre@770energy.com" john_hre
+usermod -c  "Sarah Con, sarah.con@770energy.com" sarah_con
+
+#Add newly  created user to there respective group 
+usermod -G Hum_resources bill_hre
+usermod -G Contractors_site sarah_con
+
+#modify Hresources Permission  so only owners of the group can read, write and execute
+chmod 750 Hresources/
+
+#modify Contractors Permission  so only owners of the group can read, write and execute 
+chmod 750 Contractors/
+
+#Set Ownership so that  user  is owned by the respective employee 
+chown bill_hre:Hum_resources  /home/bill_hre
+
+#Set Ownership so that  user  is owned by the respective employee 
+chown sarah_con:Hum_resources  /home/sarah_con
+
+#set permission for user’s directory
+chmod 700  /home/bill_hre
+#set permission for user’s directory
+chmod 700  /home/sarah_con
+
+echo "This Script ran successfully"
